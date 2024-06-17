@@ -17,44 +17,52 @@
     />
   </head>
   <body>
+    <button id="startButton">Start Recording</button>
     <section
       id="visualisation"
       style="border: 1px black solid; max-width: 900px"
     ></section>
+    <script src="./index.js"></script>
     <script type="module">
       function getData() {
         var data = {
           id: 1,
+          idTag: "iniciar",
           name: "Iniciar",
           type: "Root",
           description: "Biodescodificacion vertebras",
           children: [
             {
               id: 2,
-              name: "Vertebras",
+              idTag: "vertebras",
+              name: "Vértebras",
               type: "Type",
               description: "Hay alguna alteracion en vertebras",
               children: [
                 {
                   id: 3,
+                  idTag: "cervicales",
                   name: "Cervicales",
                   type: "Type",
                   description: "Existe Desequilibrio",
                   children: [
                     {
                       id: 4,
+                      idTag: "cervical-1",
                       name: "Cervical 1",
                       type: "Type",
                       description: "Existe Desequilibrio",
                     },
                     {
                       id: 5,
+                      idTag: "cervical-2",
                       name: "Cervical 2",
                       type: "Type",
                       description: "Existe Desequilibrio",
                     },
                     {
                       id: 6,
+                      idTag: "cervical-3",
                       name: "Cervical 3",
                       type: "Type",
                       description: "Existe Desequilibrio",
@@ -63,24 +71,28 @@
                 },
                 {
                   id: 7,
+                  idTag: "dorsales",
                   name: "Dorsales",
                   type: "Type",
                   description: "Existe Desequilibrio",
                   children: [
                     {
                       id: 8,
+                      idTag: "dorsales-1",
                       name: "Dorsales 1",
                       type: "Type",
                       description: "Existe Desequilibrio",
                     },
                     {
                       id: 9,
+                      idTag: "dorsales-2",
                       name: "Dorsales 2",
                       type: "Type",
                       description: "Existe Desequilibrio",
                     },
                     {
                       id: 10,
+                      idTag: "dorsales-3",
                       name: "Dorsales 3",
                       type: "Type",
                       description: "Existe Desequilibrio",
@@ -89,24 +101,28 @@
                 },
                 {
                   id: 11,
+                  idTag: "lumbares",
                   name: "Lumbares",
                   type: "Type",
                   description: "Existe Desequilibrio",
                   children: [
                     {
                       id: 12,
+                      idTag: "lumbares-1",
                       name: "Lumbares 1",
                       type: "Type",
                       description: "Existe Desequilibrio",
                     },
                     {
                       id: 13,
+                      idTag: "lumbares-2",
                       name: "Lumbares 2",
                       type: "Type",
                       description: "Existe Desequilibrio",
                     },
                     {
                       id: 14,
+                      idTag: "lumbares-3",
                       name: "Lumbares 3",
                       type: "Type",
                       description: "Existe Desequilibrio",
@@ -115,18 +131,21 @@
                 },
                 {
                   id: 15,
+                  idTag: "sacro",
                   name: "Sacro",
                   type: "Type",
                   description: "Existe Desequilibrio",
                   children: [
                     {
                       id: 16,
+                      idTag: "sacro-1",
                       name: "Sacro 1",
                       type: "Type",
                       description: "Existe Desequilibrio",
                     },
                     {
                       id: 17,
+                      idTag: "sacro-2",
                       name: "Sacro 2",
                       type: "Type",
                       description: "Existe Desequilibrio",
@@ -135,6 +154,7 @@
                 },
                 {
                   id: 18,
+                  idTag: "coxis",
                   name: "Coxis",
                   type: "Type",
                   description: "Existe Desequilibrio",
@@ -146,6 +166,8 @@
 
         return data;
       }
+
+      //Drawing the tree's nodes
 
       var data = getData();
 
@@ -171,7 +193,7 @@
           .getPanningContainer()
           .selectAll("g.node")
           .attr("id", function (data, index, arr) {
-            return data.data.name;
+            return data.data.idTag;
           });
       }
 
