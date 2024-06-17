@@ -1,0 +1,16 @@
+{
+  "name": "d3-mitch-tree-voice",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "d3-mitch-tree": "^1.1.2",
+    "express": "^4.19.2"
+  }
+}

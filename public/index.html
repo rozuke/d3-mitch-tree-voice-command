@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tree with d3-mitch-tree</title>
+    <script src="https://cdn.jsdelivr.net/gh/deltoss/d3-mitch-tree@1.0.2/dist/js/d3-mitch-tree.min.js"></script>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/gh/deltoss/d3-mitch-tree@1.0.2/dist/css/d3-mitch-tree.min.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/gh/deltoss/d3-mitch-tree@1.0.2/dist/css/d3-mitch-tree-theme-default.min.css"
+    />
+  </head>
+  <body>
+    <section
+      id="visualisation"
+      style="border: 1px black solid; max-width: 900px"
+    ></section>
+    <script type="module">
+      function getData() {
+        var data = {
+          id: 1,
+          name: "Iniciar",
+          type: "Root",
+          description: "Biodescodificacion vertebras",
+          children: [
+            {
+              id: 2,
+              name: "Vertebras",
+              type: "Type",
+              description: "Hay alguna alteracion en vertebras",
+              children: [
+                {
+                  id: 3,
+                  name: "Cervicales",
+                  type: "Type",
+                  description: "Existe Desequilibrio",
+                  children: [
+                    {
+                      id: 4,
+                      name: "Cervical 1",
+                      type: "Type",
+                      description: "Existe Desequilibrio",
+                    },
+                    {
+                      id: 5,
+                      name: "Cervical 2",
+                      type: "Type",
+                      description: "Existe Desequilibrio",
+                    },
+                    {
+                      id: 6,
+                      name: "Cervical 3",
+                      type: "Type",
+                      description: "Existe Desequilibrio",
+                    },
+                  ],
+                },
+                {
+                  id: 7,
+                  name: "Dorsales",
+                  type: "Type",
+                  description: "Existe Desequilibrio",
+                  children: [
+                    {
+                      id: 8,
+                      name: "Dorsales 1",
+                      type: "Type",
+                      description: "Existe Desequilibrio",
+                    },
+                    {
+                      id: 9,
+                      name: "Dorsales 2",
+                      type: "Type",
+                      description: "Existe Desequilibrio",
+                    },
+                    {
+                      id: 10,
+                      name: "Dorsales 3",
+                      type: "Type",
+                      description: "Existe Desequilibrio",
+                    },
+                  ],
+                },
+                {
+                  id: 11,
+                  name: "Lumbares",
+                  type: "Type",
+                  description: "Existe Desequilibrio",
+                  children: [
+                    {
+                      id: 12,
+                      name: "Lumbares 1",
+                      type: "Type",
+                      description: "Existe Desequilibrio",
+                    },
+                    {
+                      id: 13,
+                      name: "Lumbares 2",
+                      type: "Type",
+                      description: "Existe Desequilibrio",
+                    },
+                    {
+                      id: 14,
+                      name: "Lumbares 3",
+                      type: "Type",
+                      description: "Existe Desequilibrio",
+                    },
+                  ],
+                },
+                {
+                  id: 15,
+                  name: "Sacro",
+                  type: "Type",
+                  description: "Existe Desequilibrio",
+                  children: [
+                    {
+                      id: 16,
+                      name: "Sacro 1",
+                      type: "Type",
+                      description: "Existe Desequilibrio",
+                    },
+                    {
+                      id: 17,
+                      name: "Sacro 2",
+                      type: "Type",
+                      description: "Existe Desequilibrio",
+                    },
+                  ],
+                },
+                {
+                  id: 18,
+                  name: "Coxis",
+                  type: "Type",
+                  description: "Existe Desequilibrio",
+                },
+              ],
+            },
+          ],
+        };
+
+        return data;
+      }
+
+      var data = getData();
+
+      var treePlugin = new d3.mitchTree.boxedTree()
+        .setData(data)
+        .setElement(document.getElementById("visualisation"))
+        .setIdAccessor(function (data) {
+          return data.id;
+        })
+        .setChildrenAccessor(function (data) {
+          return data.children;
+        })
+        .setBodyDisplayTextAccessor(function (data) {
+          return data.description;
+        })
+        .setTitleDisplayTextAccessor(function (data) {
+          return data.name;
+        })
+        .initialize();
+
+      function updateTreeClasses(treePlugin) {
+        treePlugin
+          .getPanningContainer()
+          .selectAll("g.node")
+          .attr("id", function (data, index, arr) {
+            return data.data.name;
+          });
+      }
+
+      treePlugin.update = function (nodeDataItem) {
+        this.__proto__.update.call(this, nodeDataItem);
+        updateTreeClasses(this);
+      };
+
+      updateTreeClasses(treePlugin);
+    </script>
+  </body>
+</html>
