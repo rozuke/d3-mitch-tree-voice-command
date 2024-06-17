@@ -1,19 +1,15 @@
-if (!("SpeechRecognition" in window || "webkitSpeechRecognition" in window)) {
-  alert(
-    "Tu navegador no soporta la Web Speech API. Por favor, utiliza un navegador compatible como Google Chrome."
-  );
-} else {
+if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
+  console.log("SIII FUNCIONA");
   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
   var SpeechGrammarList = SpeechGrammarList || window.webkitSpeechGrammarList;
   var SpeechRecognitionEvent =
     SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
-  const baseWord = "Vital mover a";
   // var commands = [`iniciar`, `vértebras`, `cervicales`, `dorsales`];
 
   var recognition = new SpeechRecognition();
-
-  recognition.continuous = false;
+  var isListening = false;
+  recognition.continuous = true;
   recognition.lang = "es-ES";
   recognition.interimResults = false;
   recognition.maxAlternatives = 1;
@@ -22,11 +18,21 @@ if (!("SpeechRecognition" in window || "webkitSpeechRecognition" in window)) {
 
   startButton.addEventListener("click", () => {
     // Solicitar permiso para acceder al micrófono
-    recognition.start();
+    if (!isListening) {
+      recognition.start();
+      isListening = true;
+      startButton.textContent = "Detener comandos de vos";
+    } else {
+      recognition.stop();
+      isListening = false;
+      startButton.textContent = "Iniciar comandos de vos";
+    }
   });
 
   recognition.onresult = (event) => {
-    var command = event.results[0][0].transcript;
+    console.log(event.results);
+    var command = event.results[event.results.length - 1][0].transcript;
+
     const id = getId(command);
     var node = document.getElementById(id);
     console.log("EL COMANDO ES : " + command);
@@ -34,20 +40,29 @@ if (!("SpeechRecognition" in window || "webkitSpeechRecognition" in window)) {
     if (node) {
       console.log(id);
       simulateClick(node);
+      command = "";
     } else {
       console.log(`Fail with id = ${id}`);
       console.log("Comando no reconocido intente de nuevo");
     }
   };
 
-  recognition.onspeechend = () => {
-    recognition.stop();
-  };
+  // recognition.onspeechend = () => {
+  //   if (!isListening) recognition.stop();
+  // };
 
   const getId = (command) => {
-    var baseId = command.substring(baseWord.length).trim().replace(/\s+/g, "-");
+    // var baseId = command.substring(baseWord.length).trim().replace(/\s+/g, "-");
+    // return removeAccents(baseId);
 
-    return removeAccents(baseId);
+    var words = command.trim().split(" ");
+
+    if (words.length > 4) {
+      var id = `${words[words.length - 2]}-${words[words.length - 1]}`;
+      return removeAccents(id);
+    }
+    var id = words[words.length - 1];
+    return removeAccents(id);
   };
 
   const removeAccents = (str) => {
@@ -62,4 +77,8 @@ if (!("SpeechRecognition" in window || "webkitSpeechRecognition" in window)) {
     });
     element.dispatchEvent(event);
   };
+} else {
+  alert(
+    "Tu navegador no soporta la Web Speech API. Por favor, utiliza un navegador compatible como Google Chrome."
+  );
 }
