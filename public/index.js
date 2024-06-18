@@ -1,5 +1,4 @@
 if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
-  console.log("SIII FUNCIONA");
   var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
   var SpeechGrammarList = SpeechGrammarList || window.webkitSpeechGrammarList;
   var SpeechRecognitionEvent =
@@ -40,10 +39,15 @@ if ("SpeechRecognition" in window || "webkitSpeechRecognition" in window) {
     if (node) {
       console.log(id);
       simulateClick(node);
-      command = "";
     } else {
       console.log(`Fail with id = ${id}`);
       console.log("Comando no reconocido intente de nuevo");
+    }
+  };
+
+  recognition.onend = () => {
+    if (isListening) {
+      recognition.start(); // Reinicia el reconocimiento si todavía está escuchando
     }
   };
 
